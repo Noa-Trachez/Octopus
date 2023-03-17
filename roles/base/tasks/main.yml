@@ -1,0 +1,10 @@
+- name: Base Installation
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Base Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
