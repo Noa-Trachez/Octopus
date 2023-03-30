@@ -1,0 +1,33 @@
+all:
+  # Groups
+  children:
+
+    # redis group
+    redis:
+      hosts:
+        redis-host:
+          ansible_host: 'quentin.desmettre@34.125.1.95'
+
+    # postgres group
+    postgres:
+      hosts:
+        postgres-host:
+          ansible_host: 'quentin.desmettre@34.125.170.209'
+
+    # poll group
+    poll:
+      hosts:
+        poll-host:
+          ansible_host: 'quentin.desmettre@34.125.134.82'
+
+    # result group
+    result:
+      hosts:
+        result-host:
+          ansible_host: 'quentin.desmettre@34.125.48.91'
+
+    # worker group
+    worker:
+      hosts:
+        worker-host:
+          ansible_host: 'quentin.desmettre@34.125.19.121'

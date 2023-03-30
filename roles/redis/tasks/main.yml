@@ -1,8 +1,8 @@
 - name: Install Redis
-  hosts: all
-  vars:
-    redis_port: 6379
-    redis_databases: 1
+  hosts: redis
+
+  vars_files:
+    - group_vars/all.yml
   become: yes
 
   tasks:
@@ -19,7 +19,7 @@
 
     - name: Ensure Redis Configuration
       template:
-        src: redis.conf.j2
+        src: ../files/redis.conf
         dest: /etc/redis/redis.conf
         owner: root
         group: root

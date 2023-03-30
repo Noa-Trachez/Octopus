@@ -1,0 +1,6 @@
+---
+- name: My First Playbook
+  hosts: all
+  become: true
+  roles:
+    - base
