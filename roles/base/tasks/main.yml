@@ -1,10 +1,9 @@
-- name: Base Installation
-  hosts: all
-  become: yes
-
-  tasks:
-    - name: Base Install git
-      apt:
-        name: git
-        state: latest
-        update_cache: yes
+---
+- name: Base Install git and python
+  apt:
+    name:
+      - git
+      - python-setuptools
+      - python3
+      - python3-pip
+    state: latest

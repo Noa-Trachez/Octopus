@@ -1,6 +1,22 @@
 ---
-- name: My First Playbook
+- name: Setup all
   hosts: all
   become: true
   roles:
     - base
+
+# - name: Setup redis
+#   hosts: redis
+#   become: true
+#   vars_files:
+#     - group_vars/all.yml
+#   roles:
+#     - redis
+
+# - name: Setup postgres
+#   hosts: postgres
+#   become: true
+#   vars_files:
+#     - group_vars/all.yml
+#   roles:
+#     - postgresql

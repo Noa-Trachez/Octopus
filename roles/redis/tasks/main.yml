@@ -1,27 +1,19 @@
-- name: Install Redis
-  hosts: redis
+- name: Ensure Redis is present
+  apt:
+    name: redis-server
+    state: latest
 
-  vars_files:
-    - group_vars/all.yml
-  become: yes
+- name: Ensure Redis is started
+  service:
+    name: redis-server
+    state: started
+    enabled: yes
 
-  tasks:
-    - name: Ensure Redis is present
-      apt:
-        name: redis-server
-        state: latest
-
-    - name: Ensure Redis is started
-      service:
-        name: redis-server
-        state: started
-        enabled: yes
-
-    - name: Ensure Redis Configuration
-      template:
-        src: ../files/redis.conf
-        dest: /etc/redis/redis.conf
-        owner: root
-        group: root
-        mode: 0644
-      notify: Redis Restart
+- name: Ensure Redis Configuration
+  template:
+    src: ../files/redis.conf
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Redis Restart
