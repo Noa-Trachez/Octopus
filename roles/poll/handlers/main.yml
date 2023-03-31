@@ -1,0 +1,6 @@
+- name: Poll restart
+  become: true
+  service:
+    name: poll
+    state: restarted
+    enabled: yes

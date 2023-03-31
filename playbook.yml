@@ -5,18 +5,25 @@
   roles:
     - base
 
-# - name: Setup redis
-#   hosts: redis
-#   become: true
-#   vars_files:
-#     - group_vars/all.yml
-#   roles:
-#     - redis
+- name: Setup redis
+  hosts: redis
+  become: true
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - redis
 
-# - name: Setup postgres
-#   hosts: postgres
-#   become: true
-#   vars_files:
-#     - group_vars/all.yml
-#   roles:
-#     - postgresql
+- name: Setup postgres
+  hosts: postgres
+  become: true
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - postgresql
+
+- name: Setup poll
+  hosts: poll
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - poll
