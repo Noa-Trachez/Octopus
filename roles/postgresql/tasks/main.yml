@@ -1,0 +1,65 @@
+# Install postgresql
+- name: "[PREPARE: Add PostgreSQL repo #1]"
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: "[PREPARE: Add PostgreSQL repo #2]"
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main"
+    state: present
+
+- name: "[#1: Install PostgreSQL 12]"
+  apt:
+    name:
+      - postgresql-12
+      - postgresql-client-12
+      - python3-psycopg2
+    state: present
+
+# Modify pg_hba.conf to allow password-based authentication
+- name: "[#2: Allow password-based authentication in pg_hba.conf]"
+  copy:
+    src: ../files/pg_hba.conf
+    dest: /etc/postgresql/12/main/pg_hba.conf
+  notify: Restart PostgreSQL service
+
+- name: "[Flush handlers]"
+  meta: flush_handlers
+
+- name: Ensure PostgreSQL is running
+  systemd:
+    name: postgresql
+    state: started
+
+# Create database
+- name: "[#3: Create database]"
+  postgresql_db:
+    login_unix_socket: "/var/run/postgresql"
+    name: "{{ postgresql_db_name }}"
+    state: present
+
+# Create user
+- name: Create user
+  postgresql_user:
+    login_unix_socket: "/var/run/postgresql"
+    db: "{{ postgresql_db_name }}"
+    name: "{{ postgresql_user_name }}"
+    password: "{{ postgresql_user_password }}"
+    state: present
+
+# Set limited permissions
+##TODO: Set limited permissions
+
+# Create database scheme
+# This is a non-idempotent task, because it is not possible to check if the
+# database scheme is already created. Therefore, we use the "changed_when"
+# statement to ignore the result of this task.
+- name: "Create database scheme"
+  community.postgresql.postgresql_script:
+    login_user: "{{ postgresql_user_name }}"
+    login_password: "{{ postgresql_user_password }}"
+    login_host: "127.0.0.1"
+    db: "{{ postgresql_db_name }}"
+    path: /tmp/schema.sql
+  changed_when: false
