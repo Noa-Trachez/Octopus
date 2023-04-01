@@ -6,28 +6,28 @@ all:
     redis:
       hosts:
         redis-host:
-          ansible_host: 'quentin.desmettre@34.125.1.95'
+          ansible_host: 'quentin.desmettre@34.155.224.127'
 
     # postgres group
     postgres:
       hosts:
         postgres-host:
-          ansible_host: 'quentin.desmettre@34.125.170.209'
+          ansible_host: 'quentin.desmettre@34.155.78.84'
 
     # poll group
     poll:
       hosts:
         poll-host:
-          ansible_host: 'quentin.desmettre@34.125.134.82'
+          ansible_host: 'quentin.desmettre@34.155.105.178'
 
     # result group
     result:
       hosts:
         result-host:
-          ansible_host: 'quentin.desmettre@34.125.48.91'
+          ansible_host: 'quentin.desmettre@34.163.182.13'
 
     # worker group
     worker:
       hosts:
         worker-host:
-          ansible_host: 'quentin.desmettre@34.125.19.121'
+          ansible_host: 'quentin.desmettre@34.155.59.103'
