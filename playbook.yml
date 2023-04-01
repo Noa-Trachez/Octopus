@@ -1,6 +1,6 @@
 ---
 - name: Setup all
-  hosts: all
+  hosts: postgres
   become: true
   roles:
     - base
@@ -23,7 +23,24 @@
 
 - name: Setup poll
   hosts: poll
+  become: true
   vars_files:
     - group_vars/all.yml
   roles:
     - poll
+
+- name: Setup result
+  hosts: result
+  become: true
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - result
+
+- name: Setup worker
+  hosts: worker
+  become: true
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - worker
