@@ -1,6 +1,6 @@
 - name: Poll restart
-  become: true
-  service:
+  systemd:
     name: poll
     state: restarted
-    enabled: yes
+    enabled: true
+    daemon_reload: true

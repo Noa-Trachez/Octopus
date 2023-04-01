@@ -1,42 +1,28 @@
 - name: "Upload poll service"
-  become: true
-  copy:
+  template:
     src: "../files/poll.service"
     dest: "/etc/systemd/system/poll.service"
     mode: 0644
-  notify: Poll restart
+  notify: Poll restart # This handler will be run after the role is executed
 
 - name: "Upload and extract poll app"
   unarchive:
     src: "../../../poll.tar"
-    dest: "~"
+    dest: "/tmp/"
     mode: 0755
   notify: Poll restart
 
 - name: "Install dependencies"
-  pip:
-    requirements: "~/poll/requirements.txt"
+  apt:
+    name:
+      - python3-flask
+      - python3-redis
+    state: latest
   notify: Poll restart
 
-- name: Create poll user
-  become: true
-  user:
-    name: poll
-    shell: /bin/bash
-    state: present
-
-- name: Give access to poll user
-  become: true
-  file:
-    path: "~/poll"
-    owner: poll
-    group: poll
-    state: directory
-    mode: 0755
-
 - name: "Ensure service is started"
-  become: true
-  service:
+  systemd:
     name: poll
     state: started
-    enabled: yes
+    enabled: true
+    daemon_reload: true
