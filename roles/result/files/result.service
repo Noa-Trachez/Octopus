@@ -1,0 +1,15 @@
+[Unit]
+Description=Result Service
+
+[Service]
+Type=simple
+Environment=PORT={{ result_port }}
+Environment=POSTGRESQL_USER={{ postgresql_user_name }}
+Environment=POSTGRESQL_PASSWORD={{ postgresql_user_password }}
+Environment=POSTGRESQL_HOST={{ postgresql_host }}
+Environment=POSTGRESQL_PORT={{ postgresql_db_port }}
+Environment=POSTGRESQL_DB={{ postgresql_db_name }}
+ExecStart=node /tmp/result/server.js
+
+[Install]
+WantedBy=multi-user.target

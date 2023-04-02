@@ -1,0 +1,35 @@
+- name: "Upload result service"
+  template:
+    src: "../files/result.service"
+    dest: "/etc/systemd/system/result.service"
+    mode: 0644
+  notify: Result restart
+
+- name: "Upload and extract result app"
+  unarchive:
+    src: "../../../result.tar"
+    dest: "/tmp/"
+    mode: 0755
+  notify: Result restart
+
+- name: "Ensure node is installed"
+  apt:
+    name:
+      - nodejs
+      - npm
+    state: latest
+
+- name: "Install node dependencies"
+  npm:
+    path: /tmp/result
+  notify: Result restart
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: "Ensure service is started"
+  systemd:
+    name: result
+    state: started
+    enabled: true
+    daemon_reload: true

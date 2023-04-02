@@ -1,6 +1,6 @@
 ---
 - name: Setup all
-  hosts: postgres
+  hosts: all
   become: true
   roles:
     - base

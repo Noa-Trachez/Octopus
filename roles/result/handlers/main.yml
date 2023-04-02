@@ -1,0 +1,6 @@
+- name: Result restart
+  systemd:
+    name: result
+    state: restarted
+    enabled: true
+    daemon_reload: true
