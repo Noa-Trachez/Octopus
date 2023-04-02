@@ -4,10 +4,10 @@
     state: latest
 
 - name: Ensure Redis is started
-  service:
+  systemd:
     name: redis-server
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Ensure Redis Configuration
   template:
@@ -16,4 +16,12 @@
     owner: root
     group: root
     mode: 0644
-  notify: Redis Restart
+  register: redis_conf
+
+- name: Ensure Redis is restarted
+  systemd:
+    name: redis-server
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  when: redis_conf.changed
