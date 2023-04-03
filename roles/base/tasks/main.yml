@@ -1,9 +1,13 @@
 ---
-- name: Base Install git and python
+- name: Install utilities
   apt:
     name:
       - git
-      - python-setuptools
       - python3
       - python3-pip
+      - nano
+      - curl
+      - wget
+      - iputils-ping
+      - build-essential
     state: latest

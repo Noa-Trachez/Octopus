@@ -63,7 +63,24 @@
     state: present
 
 # Set limited permissions
-##TODO: Set limited permissions
+- name: Remove unnecessary privileges
+  postgresql_privs:
+    login_unix_socket: "/var/run/postgresql"
+    database: "{{ postgresql_db_name }}"
+    privs: "ALL"
+    role: "{{ postgresql_user_name }}"
+    type: "database"
+    state: absent
+
+- name: Grant SELECT privilege on votes to user
+  postgresql_privs:
+    login_unix_socket: "/var/run/postgresql"
+    database: "{{ postgresql_db_name }}"
+    privs: "SELECT,INSERT,UPDATE,DELETE"
+    role: "{{ postgresql_user_name }}"
+    type: "table"
+    objs: votes
+    state: present
 
 # Create database scheme
 - name: "Upload database scheme"
