@@ -1,0 +1,15 @@
+[Unit]
+Description=Result Service
+
+[Service]
+Type=simple
+Environment=REDIS_HOST={{ redis_host }}
+Environment=POSTGRESQL_USER={{ postgresql_user_name }}
+Environment=POSTGRESQL_PASSWORD={{ postgresql_user_password }}
+Environment=POSTGRESQL_HOST={{ postgresql_host }}
+Environment=POSTGRESQL_PORT={{ postgresql_db_port }}
+Environment=POSTGRESQL_DB={{ postgresql_db_name }}
+ExecStart=java -jar /tmp/worker-build/target/worker-jar-with-dependencies.jar
+
+[Install]
+WantedBy=multi-user.target

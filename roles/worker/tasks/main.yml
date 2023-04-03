@@ -1,0 +1,42 @@
+- name: "Upload worker service"
+  template:
+    src: "../files/worker.service"
+    dest: "/etc/systemd/system/worker.service"
+    mode: 0644
+  register: worker_service
+
+- name: "Upload and extract worker app"
+  unarchive:
+    src: "../../../worker.tar"
+    dest: "/tmp"
+    mode: 0755
+  register: worker_tar
+
+- name: "Install java & maven"
+  apt:
+    name:
+      - default-jre
+      - default-jdk
+      - maven
+    state: present
+
+# As this task is not idempotent,
+# run it only when worker_tar or worker_service changed
+- name: Build worker app
+  shell: "rm -rf /tmp/worker-build && cp -r /tmp/worker /tmp/worker-build && mvn -f /tmp/worker-build/pom.xml clean install"
+  when: worker_tar.changed or worker_service.changed
+
+# Same as above
+- name: Restart worker if worker app changed
+  systemd:
+    name: worker
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  when: worker_tar.changed or worker_service.changed
+
+- name: "Ensure service is started"
+  systemd:
+    name: worker
+    state: started
+    enabled: true
