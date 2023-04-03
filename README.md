@@ -4,6 +4,10 @@ This document specifies the different variables that must be present in `group_v
 
 To launch this playbook, you do not need to take any additional steps, as everything (from the inventory file to the roles) is configured by these variables.
 
+## !! Important !!
+
+**All your host machines must run under Debian 10 (buster) !!**
+
 ---
 
 ## General variables
@@ -31,4 +35,4 @@ Once you've correctly created each one of these variables, you should be able to
 ---
 
 ## Note
-If you've created the `group_vars/all.yml` file with ansible vault, consider adding the `--ask-vault-pass` argument to the previous command, or put your password in some file, and set the `ANSIBLE_VAULT_PASSWORD_FILE` to be the absolute path to this file.
+If you've created the `group_vars/all.yml` file with ansible vault, consider adding the `--ask-vault-pass` argument to the previous command, or put your password in some file, and set the `ANSIBLE_VAULT_PASSWORD_FILE` environment variable to be the absolute path to this file.

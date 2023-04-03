@@ -13,10 +13,8 @@
   notify: Poll restart
 
 - name: "Install dependencies"
-  apt:
-    name:
-      - python3-flask
-      - python3-redis
+  pip:
+    requirements: "/tmp/poll/requirements.txt"
     state: latest
   notify: Poll restart
 
