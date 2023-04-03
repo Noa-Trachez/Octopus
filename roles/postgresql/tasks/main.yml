@@ -62,6 +62,24 @@
     password: "{{ postgresql_user_password }}"
     state: present
 
+# Create database scheme
+- name: "Upload database scheme"
+  copy:
+    src: ../files/schema.sql
+    dest: /tmp/schema.sql
+
+# This is a non-idempotent task, because it is not possible to check if the
+# database scheme is already created. Therefore, we use the "changed_when"
+# statement to ignore the result of this task.
+- name: "Ensure database scheme"
+  community.postgresql.postgresql_script:
+    login_user: "{{ postgresql_user_name }}"
+    login_password: "{{ postgresql_user_password }}"
+    login_host: "127.0.0.1"
+    db: "{{ postgresql_db_name }}"
+    path: /tmp/schema.sql
+  changed_when: false
+
 # Set limited permissions
 - name: Remove unnecessary privileges
   postgresql_privs:
@@ -81,21 +99,3 @@
     type: "table"
     objs: votes
     state: present
-
-# Create database scheme
-- name: "Upload database scheme"
-  copy:
-    src: ../files/schema.sql
-    dest: /tmp/schema.sql
-
-# This is a non-idempotent task, because it is not possible to check if the
-# database scheme is already created. Therefore, we use the "changed_when"
-# statement to ignore the result of this task.
-- name: "Ensure database scheme"
-  community.postgresql.postgresql_script:
-    login_user: "{{ postgresql_user_name }}"
-    login_password: "{{ postgresql_user_password }}"
-    login_host: "127.0.0.1"
-    db: "{{ postgresql_db_name }}"
-    path: /tmp/schema.sql
-  changed_when: false
