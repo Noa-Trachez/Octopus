@@ -10,6 +10,7 @@ Environment=POSTGRESQL_HOST={{ postgresql_host }}
 Environment=POSTGRESQL_PORT={{ postgresql_db_port }}
 Environment=POSTGRESQL_DB={{ postgresql_db_name }}
 ExecStart=java -jar /tmp/worker-build/target/worker-jar-with-dependencies.jar
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
