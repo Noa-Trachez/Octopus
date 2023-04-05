@@ -2,7 +2,7 @@
 
 This document specifies the different variables that must be present in `group_vars/all.yml`.
 
-To launch this playbook, you do not need to take any additional steps, as everything (from the inventory file to the roles) is configured by these variables.
+To launch the playbook, you do not need to take any additional steps, as everything (from the inventory file to the roles) is configured by these variables.
 
 ## !! Important !!
 
@@ -35,4 +35,26 @@ Once you've correctly created each one of these variables, you should be able to
 ---
 
 ## Note
-If you've created the `group_vars/all.yml` file with ansible vault, consider adding the `--ask-vault-pass` argument to the previous command, or put your password in some file, and set the `ANSIBLE_VAULT_PASSWORD_FILE` environment variable to be the absolute path to this file.
+To create this file, you can either write it as plain text, or encrypt it using ansible vault.
+
+### Using ansible vault:
+```bash
+ansible-vault create group_vars/all.yml
+```
+
+### Content of the file (wether it's encrypted or raw):
+```yml
+variable1: value
+
+# Some comment
+variable2: some_random_val
+```
+
+---
+
+If you've created the `group_vars/all.yml` file with ansible vault, consider adding the `--ask-vault-pass` argument to the previous command, or issue the following commands:
+
+```bash
+echo <your_password> > /path/to/some/file
+export ANSIBLE_VAULT_PASSWORD_FILE=/path/to/some/file
+```
